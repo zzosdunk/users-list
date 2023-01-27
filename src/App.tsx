@@ -6,12 +6,18 @@ import useUsers from "./hooks/useUsers";
 import PersonsList from "./components/userList/UserList";
 import Layout from "./components/layout";
 import Loader from "./components/loader";
-import styled from "@emotion/styled";
 
 function App() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useUsers();
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isError,
+    error,
+  } = useUsers();
 
   const toggleId = (id: string): void => {
     if (selectedIds.includes(id)) {
@@ -40,6 +46,7 @@ function App() {
   }, [data, selectedIds]);
 
   if (isLoading) return <Loader />;
+  if (isError) return <h1>{JSON.stringify(error)}</h1>;
 
   return (
     <Layout>
